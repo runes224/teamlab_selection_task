@@ -13,10 +13,11 @@ default: &default
 
 development:
   <<: *default
+  database: teamlab_selection_development
 
 test:
   <<: *default
-  database: teamlab_selection_task
+  database: teamlab_selection_task_test
 
 production:
   <<: *default

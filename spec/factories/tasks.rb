@@ -11,7 +11,7 @@
 
 FactoryBot.define do
   factory :task do
-    title { 'タスクタイトル' }
-    body { 'タスク本文' }
+    sequence(:title) {|n| "タスクタイトル_#{n}"}
+    sequence(:body) {|n| "タスク本文_#{n}"}
   end
 end
