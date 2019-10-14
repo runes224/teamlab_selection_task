@@ -21,6 +21,7 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+/config/credentials.yml.enc
 
 # Rubymine固有の設定情報を除外
 .idea
