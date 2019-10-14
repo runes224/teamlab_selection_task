@@ -16,7 +16,7 @@ development:
 
 test:
   <<: *default
-  database: teamlab_selection_task_test
+  database: teamlab_selection_task
 
 production:
   <<: *default
