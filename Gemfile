@@ -26,8 +26,6 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
   # モデルにスキーマ情報を追記
   gem 'annotate'
-  gem 'debase'
-  gem 'ruby-debug-ide'
 end
 
 group :test do
