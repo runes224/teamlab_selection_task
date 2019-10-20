@@ -62,7 +62,7 @@ jobs:
   # EC2にSSH接続し、デプロイを実行
   deploy:
     machine:
-      image: circleci/ruby:2.6.5-node
+      image: circleci/classic:edge
     steps:
       - checkout
       # CircleCIに登録した秘密鍵を呼び出す。
