@@ -3,6 +3,7 @@ jobs:
   build:
     docker:
       - image: circleci/ruby:2.6.5-node
+        # 環境変数の定義
         environment:
           RAILS_ENV: test
           DATABASE_HOSTNAME: '127.0.0.1'
@@ -57,3 +58,27 @@ jobs:
           when: always
       - store_test_results:
           path: ~/rspec
+
+  # EC2にSSH接続し、デプロイを実行
+  deploy:
+    machine:
+      image: circleci/ruby:2.6.5-node
+    steps:
+      - checkout
+      # CircleCIに登録した秘密鍵を呼び出す。
+      - add_ssh_keys:
+      - run: ssh -i ${USER_NAME}@${HOST_NAME} 'cd /var/www/rails/teamlab_selection_task && git pull && docker-compose build && docker-compose run web bundle install && docker-compose restart'
+
+# テストが成功した場合のみ、deployを実行するようにします。
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          # masterブランチがpushされた場合のみdeployするようにする。
+          filters:
+            branches:
+              only: master

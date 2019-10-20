@@ -5,6 +5,7 @@ RUN apk upgrade && \
     bash \
     build-base \
     curl-dev \
+#    バージョン管理
     git \
     graphviz \
     imagemagick \
