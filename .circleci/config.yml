@@ -67,8 +67,8 @@ jobs:
       - checkout
       # CircleCIに登録した秘密鍵を呼び出す。
       - add_ssh_keys:
-    commands:
-      - sh script/deploy_ec2.sh
+      - run:
+          commands: sh script/deploy_ec2.sh
 
 # テストが成功した場合のみ、deployを実行するようにします。
 workflows:
