@@ -68,16 +68,16 @@ jobs:
       - checkout
       # CircleCIに登録した秘密鍵を呼び出す。
       - add_ssh_keys:
+          fingerprints:
+            - "3b:80:3b:5b:f1:14:de:e7:07:71:02:7f:84:97:d2:62"
+      - run:
+          name: install awscli
+          command: sudo pip install awscli
 
-    dependencies:
-      pre:
-        - sudo pip install awscli
+      - run:
+          name: deploy to EC2
+          command: sh script/deploy_ec2.sh
 
-    deployment:
-      staging:
-        branch: master
-        commands:
-          - sh script/deploy_ec2.sh
 # テストが成功した場合のみ、deployを実行するようにします。
 workflows:
   version: 2
