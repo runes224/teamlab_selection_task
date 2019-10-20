@@ -63,13 +63,21 @@ jobs:
   deploy:
     machine:
       image: circleci/classic:edge
+
     steps:
       - checkout
       # CircleCIに登録した秘密鍵を呼び出す。
       - add_ssh_keys:
-      - run:
-          commands: sh script/deploy_ec2.sh
 
+    dependencies:
+      pre:
+        - sudo pip install awscli
+
+    deployment:
+      staging:
+        branch: master
+        commands:
+          - sh script/deploy_ec2.sh
 # テストが成功した場合のみ、deployを実行するようにします。
 workflows:
   version: 2
