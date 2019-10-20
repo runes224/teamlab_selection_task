@@ -67,7 +67,8 @@ jobs:
       - checkout
       # CircleCIに登録した秘密鍵を呼び出す。
       - add_ssh_keys:
-      - run: ssh ${USER_NAME}@${HOST_NAME} 'cd /var/www/rails/teamlab_selection_task && git pull && docker-compose build && docker-compose run web bundle install && docker-compose restart'
+    commands:
+      - sh script/deploy_ec2.sh
 
 # テストが成功した場合のみ、deployを実行するようにします。
 workflows:
