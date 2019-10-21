@@ -20,6 +20,7 @@ test:
 
 production:
   <<: *default
+  database: teamlab_selection_task
 #  host: <%= Rails.application.credentials.rds[:host] %>
 #  database: <%= Rails.application.credentials.rds[:database] %>
 #  username: <%= Rails.application.credentials.rds[:username] %>

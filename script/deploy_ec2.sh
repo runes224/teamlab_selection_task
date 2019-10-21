@@ -8,5 +8,5 @@ MYSECURITYGROUP="sg-0a37eeb37fb44ccee"
 MYIP=`curl -s ifconfig.me`
 
 aws ec2 authorize-security-group-ingress --group-id $MYSECURITYGROUP --protocol tcp --port 22 --cidr $MYIP/32
-ssh ${USER_NAME}@${HOST_NAME} 'cd /var/www/rails/teamlab_selection_task && git pull && docker-compose build && docker-compose run web bundle install && docker-compose restart'
+ssh ${USER_NAME}@${HOST_NAME} 'cd /var/www/rails/teamlab_selection_task && git pull && docker-compose build && docker-compose run web rails db:migrate && docker-compose run web bundle install && docker-compose restart'
 aws ec2 revoke-security-group-ingress --group-id $MYSECURITYGROUP --protocol tcp --port 22 --cidr $MYIP/32
