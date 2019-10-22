@@ -16,16 +16,19 @@ jobs:
 
       # https://discuss.circleci.com/t/using-bundler-2-0-during-ci-fails/27411/3
       - run:
+          # Gemfile.lockのBundlerバージョンでBundlerをインストールする
           name: Configure Bundler
           command: |
             echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
             source $BASH_ENV
             gem install bundler
       - run:
+          # パッケージリストのアップデート
           name: Update sources list
           command: sudo apt-get update
 
       - run:
+          # mysql-clientのインストール
           name: Install MySQL client
           command: |
             sudo apt-get install default-mysql-client
@@ -36,20 +39,23 @@ jobs:
       - run:
           name: bundle install
           command: bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs=4 --retry=3
-      # bundle installされたものcacheする
       - save_cache:
+          # bundle installされたものをcacheする
           key: bundle-cache-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
       - run:
+          # DBのサービス起動を待つ
           name: Wait for DB
           command: dockerize -wait tcp://localhost:3306 -timeout 1m
 
       - run:
+          # DBの作成とマイグレーションを実行する
           name: setup db
           command: bundle exec rails db:create db:migrate
 
       - run:
+          # テストを実行する
           name: Run Rspec
           command: |
             mkdir ~/rspec
@@ -69,11 +75,12 @@ jobs:
       # CircleCIに登録した秘密鍵を呼び出す。
       - add_ssh_keys:
           fingerprints:
-            - "3b:80:3b:5b:f1:14:de:e7:07:71:02:7f:84:97:d2:62"
+            - "${KEY_FINGERPRINT}"
+      # AWS CLIのインストール
       - run:
           name: install awscli
           command: sudo pip install awscli
-
+      # デプロイ用のシェルを実行する
       - run:
           name: deploy to EC2
           command: sh script/deploy_ec2.sh

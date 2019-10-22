@@ -2,33 +2,49 @@ version: '3'
 services:
   db:
     image: mysql:5.7.22
+    # DB用の環境変数を定義する
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    # ホスト側の3306番ポートをコンテナ側の3306番ポートに転送する
     ports:
-      - "4306:3306"
+      - "3306:3306"
+    # ボリュームを作成する
     volumes:
       - db-data:/var/lib/mysql
       - ./mysqlconf:/etc/mysql/conf.d
+    # コンテナを起動させ続ける
+    tty: true
+    stdin_open: true
   web:
+    # Dockerfileをもとにしてイメージを構築する
     build: .
+    # pidを削除し、サーバを立ちあげる
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 80 -b '0.0.0.0'"
+    # ボリュームを作成する
     volumes:
       - .:/teamlab_selection_task
       - bundle:/bundle
+    # ホスト側の80番ポートをコンテナ側の80番ポートに転送する
     ports:
       - "80:80"
+    # DBに接続する
     links:
       - db
+    # DB接続用の環境変数を定義する
     environment:
       DATABASE_USERNAME: root
       DATABASE_PASSWORD: ""
       DATABASE_HOSTNAME: db
       DATABASE_NAME: teamlab_selection_task
+      # RAILS_ENVが定義されていない場合は、RAILS_ENVにproductionを定義する
       RAILS_ENV: ${RAILS_ENV:-production}
+    # コンテナを起動させ続ける
     tty: true
     stdin_open: true
 volumes:
+  # データベースの永続化
   db-data:
     driver: local
+  # bundleを使う際のdriverとしてlocalを指定
   bundle:
     driver: local
