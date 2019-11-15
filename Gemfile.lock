@@ -46,10 +46,6 @@ GEM
       activerecord (>= 3.2, < 7.0)
       rake (>= 10.4, < 13.0)
     arel (9.0.0)
-    autodoc (0.7.3)
-      actionpack
-      activesupport (>= 3.0.0)
-      rspec
     bindex (0.8.1)
     bootsnap (1.4.5)
       msgpack (~> 1.0)
@@ -100,7 +96,8 @@ GEM
       mini_portile2 (~> 2.4.0)
     puma (3.12.1)
     rack (2.0.7)
-    rack-cors (1.0.3)
+    rack-cors (1.0.5)
+      rack (>= 1.6.0)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rails (5.2.3)
@@ -131,10 +128,6 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)
-    rspec (3.9.0)
-      rspec-core (~> 3.9.0)
-      rspec-expectations (~> 3.9.0)
-      rspec-mocks (~> 3.9.0)
     rspec-core (3.9.0)
       rspec-support (~> 3.9.0)
     rspec-expectations (3.9.0)
@@ -198,7 +191,6 @@ PLATFORMS
 
 DEPENDENCIES
   annotate
-  autodoc
   bootsnap (>= 1.1.0)
   byebug
   coffee-rails (~> 4.2)
